@@ -13,16 +13,19 @@ else
 include("cls/cls.php");
 $p=new tmdt();
 $layid=$_SESSION['user'];
+ $laybm=$_REQUEST['bm'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Dashboard</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="login.css">
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
    <style>
 		  #nut1
 {
@@ -33,13 +36,33 @@ $layid=$_SESSION['user'];
 	border-radius:10px;
 	color: var;(--color-danger);
 	font-size:15px;
-}	  
+}	
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.4375rem 0.875rem;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.53;
+    color: #697a8d;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #d9dee3;
+    appearance: none;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}	
+.profile-ds-info {
+    height:auto;
+    overflow: hidden;
+	padding:20px;
+} 
 #tt
 {
 	margin-top:20px;
 	padding:20px;
 	background:#E5E5E5;
-	height: auto;
+	height:auto;
 	width:90%;
 	border-radius:10px;
 	margin-bottom:20px;
@@ -50,16 +73,19 @@ $layid=$_SESSION['user'];
 	box-shadow: 0 2px 10px 0 rgba(114, 109, 109, 0.993);
 	transition:all 300ms ease;
 }
-img:hover
-{
-	width:200px;
-	height:200px;
-	box-shadow: 0 5px 10px 0 rgba(114, 109, 109, 0.993);
-	transition:all 300ms ease;
-}
 a:hover
 {
 	color:#00F;
+}
+.w-100 {
+    width: 20% !important;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+#ttgv
+{
+	border-radius:10px;
+	border:2px solid #000;
 }
 </style>
 </head>
@@ -76,6 +102,7 @@ a:hover
                 </div>
             </div>
 
+          
             <div class="sidebar">
                 <a href="index.php" class="active">
                     <span class="material-icons-sharp">dashboard</span>
@@ -101,7 +128,7 @@ a:hover
                 <a href ="#">
                  <form action="" method="POST">
      <span class="material-icons-sharp">logout</span>
-     <button class="form-control" type="submit" id="nut1" name="nut1" value="Đăng xuất">Log out</button>
+    <button class="form-control" type="submit" id="nut1" name="nut1" value="Đăng xuất">Log out</button>
        <?php
          switch($_POST['nut1'])
          {
@@ -118,21 +145,44 @@ a:hover
         </aside>
         <!------------------- END OF ASIDE --------------------> 
         <main>
-            <div class=title><h1>Dashboard</h1></div>
+            <div class=title><h1>Thông tin đội ngũ giáo viên</h1></div>
 
             <div class="main-section-content" id="contnet">
                 <div class="row" style="display:block">
-                                            <?php
-											$p->loadtt("select * from hocsinh where mahocsinh='$layid' limit 1");
-											?>
-                                          
+                <div class="box-df profile-ds-info">
+                <form action="" method="POST">
+                <h2>Chọn môn học:</h2>    
+    <?php
+	$p->loadmonh("select tenmon from monhoc");
+	?>
+   <h2>Thông tin giáo viên</h2>
+                                        <div id="loadgv"></div>
+                                          <script type="text/javascript">
+					 $(document).ready(function() {
+                        $("#mon").change(function()
+						{
+							var mh=$(this).val()
+							$.ajax({
+								url:"data.php",
+								method:"POST",
+								data:{mh:mh},
+								success:function(data)
+								{
+									$("#loadgv").html(data);
+								}
+								});
+						});
+                    });
+					 </script>
+                   </form>
                 </div>
+            </div>
             </div>
 
         </main>
         <!-------------------- END OF MAIN ------------------->
         
-          <div class="right">
+     <div class="right">
            
 
             <div class="theme-toggler">
@@ -203,14 +253,13 @@ a:hover
                             <div class="card-title"><h5>Tin tức</h5>
                                   <?php
 						$p->loadtintuc("select * from tintuc");
-						?></div>
+						?>  </div>
                         </div>
                     </div>
                 </div>
 
             </div>
         </div>
-    </div>
     <script src="index.js"></script>
 </body>
 </html>

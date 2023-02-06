@@ -1,26 +1,15 @@
 <?php
-session_start();
-if(isset($_SESSION['user'])&& isset($_SESSION['pass']))
-{
-	include("cls/clslogin.php");
-	$q=new login();
-	$q->confirmlogin($_SESSION['user'],$_SESSION['pass']);
-}
-else
-{
-	header('location:login.php');
-}
 include("cls/cls.php");
 $p=new tmdt();
-$layid=$_SESSION['user'];
+$layidtt=$_REQUEST['matt'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Dashboard</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
    <style>
@@ -33,13 +22,33 @@ $layid=$_SESSION['user'];
 	border-radius:10px;
 	color: var;(--color-danger);
 	font-size:15px;
-}	  
+}	
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.4375rem 0.875rem;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1.53;
+    color: #697a8d;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #d9dee3;
+    appearance: none;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}	
+.profile-ds-info {
+    height:auto;
+    overflow: hidden;
+	padding:20px;
+} 
 #tt
 {
 	margin-top:20px;
 	padding:20px;
 	background:#E5E5E5;
-	height: auto;
+	height:70px;
 	width:90%;
 	border-radius:10px;
 	margin-bottom:20px;
@@ -48,14 +57,6 @@ $layid=$_SESSION['user'];
 {
 	margin-left: 1rem;
 	box-shadow: 0 2px 10px 0 rgba(114, 109, 109, 0.993);
-	transition:all 300ms ease;
-}
-img:hover
-{
-	width:200px;
-	height:200px;
-	box-shadow: 0 5px 10px 0 rgba(114, 109, 109, 0.993);
-	transition:all 300ms ease;
 }
 a:hover
 {
@@ -63,6 +64,7 @@ a:hover
 }
 </style>
 </head>
+
 <body>
     <div class="container">
         <aside>
@@ -77,7 +79,7 @@ a:hover
             </div>
 
             <div class="sidebar">
-                <a href="index.php" class="active">
+             <a href="index.php" class="active">
                     <span class="material-icons-sharp">dashboard</span>
                     <h3>Dashboard</h3>
                 </a><a href="thongtinchitiet.php">
@@ -87,9 +89,18 @@ a:hover
                     <span class="material-icons-sharp">school</span>
                     <h3>Đội ngũ giáo viên</h3>
                 </a><a href ="#">
+                    <span class="material-icons-sharp">auto_graph</span>
+                    <h3>Thống kê</h3>
+                </a><a href ="#">
                     <span class="material-icons-sharp">mail_outline</span>
                     <h3>Thông báo</h3>
                     <span class="message-count">27</span>
+                </a><a href ="#">
+                    <span class="material-icons-sharp">report_gmailerrorred</span>
+                    <h3>Báo cáo</h3>
+                </a><a href ="#">
+                    <span class="material-icons-sharp">settings</span>
+                    <h3>Cài đặt</h3>
                 </a><a href="guigopy.php">
                     <span class="material-icons-sharp">add_circle_outline</span>
                     <h3>Đóng góp ý kiến</h3>
@@ -98,7 +109,7 @@ a:hover
                     <span class="material-icons-sharp">add_circle_outline</span>
                     <h3>Thay đổi mật khẩu</h3>
                 </a>
-                <a href ="#">
+             <a href ="#">
                  <form action="" method="POST">
      <span class="material-icons-sharp">logout</span>
      <button class="form-control" type="submit" id="nut1" name="nut1" value="Đăng xuất">Log out</button>
@@ -113,26 +124,26 @@ a:hover
           }
        ?>
        </a>
-                    </form>
             </div>
         </aside>
         <!------------------- END OF ASIDE --------------------> 
         <main>
-            <div class=title><h1>Dashboard</h1></div>
+            <div class=title><h1>TIN TỨC</h1></div>
 
             <div class="main-section-content" id="contnet">
                 <div class="row" style="display:block">
+                <form action="" method="POST">
                                             <?php
-											$p->loadtt("select * from hocsinh where mahocsinh='$layid' limit 1");
+											$p->loadcttintuc("select * from tintuc where matintuc=".$layidtt."");
 											?>
-                                          
+                                            </form>
                 </div>
             </div>
 
         </main>
         <!-------------------- END OF MAIN ------------------->
         
-          <div class="right">
+        <div class="right">
            
 
             <div class="theme-toggler">
@@ -197,7 +208,7 @@ a:hover
                     </div>
                 </div>
 
-                <div class="row" style="box-shadow: 0 2px 10px 0 rgba(114, 109, 109, 0.993); margin-top:10px; border-radius:10px">
+                <div class="row">
                     <div class="card">
                         <div class="card-header">
                             <div class="card-title"><h5>Tin tức</h5>

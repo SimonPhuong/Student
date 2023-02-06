@@ -1,4 +1,4 @@
-<?php
+<?php 
 session_start();
 if(isset($_SESSION['user'])&& isset($_SESSION['pass']))
 {
@@ -17,12 +17,13 @@ $layid=$_SESSION['user'];
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Dashboard</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+     <link rel="stylesheet" href="login.css">
    <style>
 		  #nut1
 {
@@ -39,7 +40,7 @@ $layid=$_SESSION['user'];
 	margin-top:20px;
 	padding:20px;
 	background:#E5E5E5;
-	height: auto;
+	height:auto;
 	width:90%;
 	border-radius:10px;
 	margin-bottom:20px;
@@ -48,21 +49,24 @@ $layid=$_SESSION['user'];
 {
 	margin-left: 1rem;
 	box-shadow: 0 2px 10px 0 rgba(114, 109, 109, 0.993);
-	transition:all 300ms ease;
+		transition:all 300ms ease;
 }
-img:hover
-{
-	width:200px;
-	height:200px;
-	box-shadow: 0 5px 10px 0 rgba(114, 109, 109, 0.993);
-	transition:all 300ms ease;
+.w-100 {
+    width: 30% !important;
+	margin-top:20px;
+	margin-bottom:20px;
 }
+.profile-ds-info {
+    height:auto;
+    overflow: hidden;
+} 
 a:hover
 {
 	color:#00F;
 }
 </style>
 </head>
+
 <body>
     <div class="container">
         <aside>
@@ -118,21 +122,108 @@ a:hover
         </aside>
         <!------------------- END OF ASIDE --------------------> 
         <main>
-            <div class=title><h1>Dashboard</h1></div>
+            <div class=title><h1>THAY ĐỔI MẬT KHẨU</h1></div>
 
             <div class="main-section-content" id="contnet">
                 <div class="row" style="display:block">
-                                            <?php
-											$p->loadtt("select * from hocsinh where mahocsinh='$layid' limit 1");
-											?>
-                                          
+                                           <div class="row" style="display:block">
+                        <div class="box-df profile-ds-info">
+                            <div class="portlet">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <span class="caption-subject bold" lang="db-thongtinsinhvien">Thay đổi mật khẩu</span>
+                                    </div>
+                                </div>
+
+                                <div class="porlet-body">
+                                    
+				<div class="form-horizontal">
+                                                <div class="form-body">
+                                                    <div class="form-group">
+                                                    <form id="formAuthentication" class="mb-3" action="" method="POST">
+                                                    <?php
+													$p->loadpasscu("select pass from taikhoanhs where mahocsinh=".$layid." ");
+													?>
+                                                                               <label for="email" class="form-label">Nhập mật khẩu cũ:</label>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    id="txtpasscure"
+                                    name="txtpasscure"
+                                    placeholder="Mật khẩu cũ"
+                                    autofocus
+                                    style="margin-bottom:30px;"
+                                  />
+                                                         <label for="email" class="form-label">Nhập mật khẩu mới:</label>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    id="txtpass"
+                                    name="txtpass"
+                                    placeholder="Mật khẩu mới"
+                                    autofocus
+                                    style="margin-bottom:30px;"
+                                  />
+                                  <label for="email" class="form-label">Nhập lại mật khẩu mới:</label>
+                                   <input
+                                    type="text"
+                                    class="form-control"
+                                    id="txtrepass"
+                                    name="txtrepass"
+                                    placeholder="Nhập lại mật khẩu mới"
+                                    autofocus
+                                  />
+                                                        <button class="btn btn-primary d-grid w-100" type="submit" name="button" id="button" value="Xác nhận">Xác nhận</button>
+                                                            <?php
+                   switch($_POST['button'])
+                        {
+	                      case 'Xác nhận':
+                          {
+							  $passcu=$_REQUEST['txtpasscu'];
+							  $passcure=$_REQUEST['txtpasscure'];
+							  $passcuremd5=md5($passcure);
+							  $pass=$_REQUEST['txtpass'];
+		                    $pass1=$_REQUEST['txtrepass'];
+							$pass2=md5($pass1);
+					if($passcuremd5==$passcu)
+					{
+						if($pass1==$pass)
+						{	
+				        	if($p->themxoasua("UPDATE taikhoanhs SET pass= '$pass2' WHERE mahocsinh ='$layid' LIMIT 1 ;")==1)
+			                    {
+			              	      echo '<script> alert("Thay đổi mật khẩu thành công!"); </script>'; 
+			                    }
+			                 else
+			                    {
+				                   echo '<script> alert("Thay đổi mật khẩu không thành công!"); </script>';
+								}
+                         }
+						else
+						{
+							echo'Mật khẩu nhập lại không trùng khớp!';
+						}
+					}
+				    else
+						{
+							echo'Mật khẩu cũ không đúng!';
+						}
+						  }
+						}
+                 ?>
+                 </form>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+											 </div>
+                            </div>
+                        </div>
                 </div>
             </div>
 
         </main>
         <!-------------------- END OF MAIN ------------------->
-        
-          <div class="right">
+       <div class="right">
            
 
             <div class="theme-toggler">

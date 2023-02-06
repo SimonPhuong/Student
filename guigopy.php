@@ -17,13 +17,18 @@ $layid=$_SESSION['user'];
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Dashboard</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+     <link rel="stylesheet" href="login.css">
    <style>
+   a:hover
+{
+	color:#00F;
+}
 		  #nut1
 {
 	margin-right:50px;
@@ -39,10 +44,11 @@ $layid=$_SESSION['user'];
 	margin-top:20px;
 	padding:20px;
 	background:#E5E5E5;
-	height: auto;
+	height:auto;
 	width:90%;
 	border-radius:10px;
 	margin-bottom:20px;
+	transition:all 300ms ease;
 }
 #tt:hover
 {
@@ -50,19 +56,14 @@ $layid=$_SESSION['user'];
 	box-shadow: 0 2px 10px 0 rgba(114, 109, 109, 0.993);
 	transition:all 300ms ease;
 }
-img:hover
-{
-	width:200px;
-	height:200px;
-	box-shadow: 0 5px 10px 0 rgba(114, 109, 109, 0.993);
-	transition:all 300ms ease;
-}
-a:hover
-{
-	color:#00F;
+.w-100 {
+    width: 30% !important;
+	margin-top:20px;
+	margin-bottom:20px;
 }
 </style>
 </head>
+
 <body>
     <div class="container">
         <aside>
@@ -118,21 +119,70 @@ a:hover
         </aside>
         <!------------------- END OF ASIDE --------------------> 
         <main>
-            <div class=title><h1>Dashboard</h1></div>
+            <div class=title><h1>ĐÓNG GÓP Ý KIẾN</h1></div>
 
             <div class="main-section-content" id="contnet">
                 <div class="row" style="display:block">
-                                            <?php
-											$p->loadtt("select * from hocsinh where mahocsinh='$layid' limit 1");
-											?>
-                                          
+                                           <div class="row" style="display:block">
+                        <div class="box-df profile-ds-info">
+                            <div class="portlet">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <span class="caption-subject bold" lang="db-thongtinsinhvien">Đóng góp ý kiến</span>
+                                    </div>
+                                </div>
+
+                                <div class="porlet-body">
+                                    
+				<div class="form-horizontal">
+                                                <div class="form-body">
+                                                    <div class="form-group">
+                                                    <form id="formAuthentication" class="mb-3" action="" method="POST">
+                                                         <label for="email" class="form-label">Nội dung góp ý</label>
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    id="txtnd"
+                                    name="txtnd"
+                                    placeholder="Nhập nội dung góp ý"
+                                    autofocus
+                                  />
+                                                        <button class="btn btn-primary d-grid w-100" type="submit" name="button" id="button" value="Gửi">Gửi</button>
+                                                                                                <?php
+                   switch($_POST['button'])
+                        {
+	                      case 'Gửi':
+                          {
+		                    $nd=$_REQUEST['txtnd'];
+					if($p->themxoasua("insert into guigopy (mahocsinh,noidung,magiaovien) values('$layid','$nd','0')")==1)
+			                    {
+			              	      echo '<script> alert("Gửi góp ý thành công!"); </script>'; 
+			                    }
+			                 else
+			                    {
+				                   echo '<script> alert("Gửi góp ý không thành công!"); </script>';
+								}
+                        }
+						}
+                 ?>
+                                                        <label for="email" class="form-label">Cảm ơn bạn đã góp ý!</label>
+                                                        <br>
+                                                        <label for="email" class="form-label">Sự góp ý của bạn sẽ làm chúng tôi hoàn thiện hệ thống tối ưu hơn</label>
+                 </form>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+											 </div>
+                            </div>
+                        </div>
                 </div>
             </div>
 
         </main>
         <!-------------------- END OF MAIN ------------------->
         
-          <div class="right">
+        <div class="right">
            
 
             <div class="theme-toggler">

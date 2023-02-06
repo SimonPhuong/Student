@@ -13,16 +13,18 @@ else
 include("cls/cls.php");
 $p=new tmdt();
 $layid=$_SESSION['user'];
+ $laybm=$_REQUEST['bm'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Dashboard</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="ketquahoctap.css">
    <style>
 		  #nut1
 {
@@ -33,13 +35,17 @@ $layid=$_SESSION['user'];
 	border-radius:10px;
 	color: var;(--color-danger);
 	font-size:15px;
-}	  
+}	
+.profile-ds-info {
+    height: 300px;
+    overflow: hidden;
+}
 #tt
 {
 	margin-top:20px;
 	padding:20px;
 	background:#E5E5E5;
-	height: auto;
+	height:70px;
 	width:90%;
 	border-radius:10px;
 	margin-bottom:20px;
@@ -48,13 +54,6 @@ $layid=$_SESSION['user'];
 {
 	margin-left: 1rem;
 	box-shadow: 0 2px 10px 0 rgba(114, 109, 109, 0.993);
-	transition:all 300ms ease;
-}
-img:hover
-{
-	width:200px;
-	height:200px;
-	box-shadow: 0 5px 10px 0 rgba(114, 109, 109, 0.993);
 	transition:all 300ms ease;
 }
 a:hover
@@ -76,6 +75,7 @@ a:hover
                 </div>
             </div>
 
+           
             <div class="sidebar">
                 <a href="index.php" class="active">
                     <span class="material-icons-sharp">dashboard</span>
@@ -101,7 +101,7 @@ a:hover
                 <a href ="#">
                  <form action="" method="POST">
      <span class="material-icons-sharp">logout</span>
-     <button class="form-control" type="submit" id="nut1" name="nut1" value="Đăng xuất">Log out</button>
+    <button class="form-control" type="submit" id="nut1" name="nut1" value="Đăng xuất">Log out</button>
        <?php
          switch($_POST['nut1'])
          {
@@ -118,14 +118,33 @@ a:hover
         </aside>
         <!------------------- END OF ASIDE --------------------> 
         <main>
-            <div class=title><h1>Dashboard</h1></div>
+            <div class=title><h1>Thông tin công nợ</h1></div>
 
             <div class="main-section-content" id="contnet">
                 <div class="row" style="display:block">
-                                            <?php
-											$p->loadtt("select * from hocsinh where mahocsinh='$layid' limit 1");
-											?>
-                                          
+                 <div class="box-df profile-ds-info">
+                 <form action="" method="POST">
+                  <table class="center" style="margin:0 auto; margin-top:30px;">
+                    <tbody>
+                        <tr class="tophead">
+                            <th style="width:100px;">Mã công nợ</th>
+                            <th style="width:100px;">Nội dung thu</th>
+                            <th style="width:100px;">Số tiền</th>
+                            <th style="width:100px;">Miễn giảm</th>
+                            <th style="width:100px;">Khấu trừ</th>
+                            <th style="width:100px;">Công nợ</th>
+                            <th style="width:100px;">Trạng thái</th>
+                            <th style="width:100px;">Mã học sinh</th>
+                        </tr>
+                       
+                        <?php
+						$p->loadcn("select * from congno where mahocsinh='$layid'");
+						?>
+
+                     </tbody>
+                </table>
+                </form>
+                </div>
                 </div>
             </div>
 
